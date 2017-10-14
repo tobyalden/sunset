@@ -23,6 +23,7 @@ class Player extends FlxSprite
     {
         movement();
         super.update(elapsed);
+        FlxSpriteUtil.bound(this);
     }
 
     private function movement()
