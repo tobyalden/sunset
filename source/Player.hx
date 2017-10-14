@@ -1,16 +1,22 @@
 package;
 
 import flixel.*;
+import flixel.math.*;
 import flixel.util.*;
 
 class Player extends FlxSprite
 {
     public static inline var SPEED = 200;
+    public static inline var SHOT_SPEED = 600;
+    public static inline var SHOT_COOLDOWN = 0.25;
+
+    private var shootTimer:FlxTimer;
 
     public function new(x:Int, y:Int)
     {
         super(x, y);
-        makeGraphic(16, 16, FlxColor.WHITE);
+        loadGraphic('assets/images/player.png');
+        shootTimer = new FlxTimer();
     }
 
     override public function update(elapsed:Float)
@@ -44,6 +50,16 @@ class Player extends FlxSprite
         if(velocity.x != 0 && velocity.y != 0) {
             velocity.scale(0.707106781);
         }
-    }
 
+        if(Controls.checkPressed('shoot')) {
+            if(!shootTimer.active) {
+                shootTimer.start(SHOT_COOLDOWN);
+                var bullet = new Bullet(
+                    Std.int(x + width/2), Std.int(y + height/2),
+                    new FlxPoint(0, -SHOT_SPEED)
+                );
+                FlxG.state.add(bullet);
+            }
+        }
+    }
 }
