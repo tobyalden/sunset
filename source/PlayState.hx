@@ -39,7 +39,10 @@ class PlayState extends FlxState
     }
 
     private function sendWave(_:FlxTimer) {
-        var rock = new Rock(0, 0, player);
+        var rock:Enemy = new Rock(0, 0, player);
+        if(new FlxRandom().bool(25)) {
+            rock = new BigRock(0, 0, player);
+        }
         rock.x = new FlxRandom().int(0, Std.int(FlxG.width - rock.width));
         rock.y = -rock.height;
         add(rock);

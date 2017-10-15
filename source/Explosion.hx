@@ -5,14 +5,11 @@ import flixel.util.*;
 
 class Explosion extends FlxSprite
 {
-    public static inline var SIZE = 32;
-
     public function new(source:FlxSprite) {
-        super(
-            source.x + source.width/2 - SIZE/2,
-            source.y + source.height/2 - SIZE/2
-        );
-        loadGraphic('assets/images/explosion.png', true, SIZE, SIZE);
+        super(source.x, source.y);
+        loadGraphic('assets/images/explosion.png', true, 32, 32);
+        x += source.width/2 - width/2;
+        y += source.height/2 - height/2;
         animation.add('explode', [0, 1], 10, false);
         animation.play('explode');
     }
