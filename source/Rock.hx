@@ -15,8 +15,4 @@ class Rock extends Enemy
         acceleration.y = FALL_ACCELERATION + rand.int(0, FALL_VARIATION);
         health = 2;
     }
-
-    override public function update(elapsed:Float) {
-        super.update(elapsed);
-    }
 }

@@ -17,10 +17,6 @@ class BigRock extends Enemy
         health = 4;
     }
 
-    override public function update(elapsed:Float) {
-        super.update(elapsed);
-    }
-
     override public function kill() {
         FlxG.state.add(new Explosion(this, true));
         super.kill();

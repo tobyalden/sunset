@@ -25,6 +25,7 @@ class Enemy extends FlxSprite
 
     override public function update(elapsed:Float)
     {
+        movement();
         super.update(elapsed);
     }
 
