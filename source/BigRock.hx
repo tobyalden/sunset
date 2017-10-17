@@ -22,7 +22,7 @@ class BigRock extends Enemy
     }
 
     override public function kill() {
-        FlxG.state.add(new Explosion(this));
+        FlxG.state.add(new Explosion(this, true));
         super.kill();
     }
 }
