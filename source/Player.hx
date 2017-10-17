@@ -1,6 +1,7 @@
 package;
 
 import flixel.*;
+import flixel.effects.*;
 import flixel.math.*;
 import flixel.util.*;
 
@@ -9,14 +10,18 @@ class Player extends FlxSprite
     public static inline var SPEED = 200;
     public static inline var SHOT_SPEED = 600;
     public static inline var SHOT_COOLDOWN = 0.25;
+    public static inline var RESPAWN_TIME = 1.5;
+    public static inline var INVINCIBLE_TIME = 1.25;
 
     private var shootTimer:FlxTimer;
+    private var invincible:FlxTimer;
 
     public function new(x:Int, y:Int)
     {
         super(x, y);
         loadGraphic('assets/images/player.png');
         shootTimer = new FlxTimer();
+        invincible = new FlxTimer();
     }
 
     override public function update(elapsed:Float)
@@ -24,6 +29,23 @@ class Player extends FlxSprite
         movement();
         super.update(elapsed);
         FlxSpriteUtil.bound(this);
+    }
+
+    override public function kill() {
+        if(invincible.active) {
+            return;
+        }
+        FlxG.state.add(new Explosion(this));
+        new FlxTimer().start(RESPAWN_TIME, function(_:FlxTimer) {
+            respawn();
+        });
+        super.kill();
+    }
+
+    private function respawn() {
+        revive();
+        invincible.start(INVINCIBLE_TIME);
+        FlxFlicker.flicker(this, INVINCIBLE_TIME);
     }
 
     private function movement()

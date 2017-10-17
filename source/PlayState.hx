@@ -36,6 +36,12 @@ class PlayState extends FlxState
                 cast(enemy, Enemy).takeHit();
             }
         );
+        FlxG.overlap(
+            player, Enemy.all,
+            function(player, enemy:FlxObject) {
+                player.kill();
+            }
+        );
     }
 
     private function sendWave(_:FlxTimer) {
