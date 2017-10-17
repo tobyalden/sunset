@@ -34,6 +34,11 @@ class Enemy extends FlxSprite
         super.kill();
     }
 
+    public function setStartPosition() {
+        x = new FlxRandom().int(0, Std.int(FlxG.width - width));
+        y = -height;
+    }
+
     public function takeHit() {
         health -= 1;
         if(health <= 0) {

@@ -49,8 +49,7 @@ class PlayState extends FlxState
         if(new FlxRandom().bool(25)) {
             rock = new BigRock(0, 0, player);
         }
-        rock.x = new FlxRandom().int(0, Std.int(FlxG.width - rock.width));
-        rock.y = -rock.height;
+        rock.setStartPosition();
         add(rock);
     }
 }
