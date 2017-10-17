@@ -9,6 +9,7 @@ class PlayState extends FlxState
 {
     public static inline var BACKDROP_SCROLL_SPEED = 200;
     public static inline var TIME_BETWEEN_WAVES = 1;
+    public static inline var MAX_ENEMIES = 1;
 
     private var player:Player;
     private var backdrop:FlxBackdrop;
@@ -28,7 +29,6 @@ class PlayState extends FlxState
 
     override public function update(elapsed:Float):Void
     {
-        super.update(elapsed);
         FlxG.overlap(
             Bullet.all, Enemy.all,
             function(bullet:FlxObject, enemy:FlxObject) {
@@ -42,12 +42,22 @@ class PlayState extends FlxState
                 player.kill();
             }
         );
+        super.update(elapsed);
     }
 
     private function sendWave(_:FlxTimer) {
-        var rock:Enemy = new Rock(0, 0, player);
+        if(Enemy.all.countLiving() >= MAX_ENEMIES) {
+            return;
+        }
+        //var fighter:Enemy = new Fighter(0, 0, player);
+        //fighter.setStartPosition();
+        //add(fighter);
+        var rock:Enemy;
         if(new FlxRandom().bool(25)) {
             rock = new BigRock(0, 0, player);
+        }
+        else {
+            rock = new Rock(0, 0, player);
         }
         rock.setStartPosition();
         add(rock);
