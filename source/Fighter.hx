@@ -23,7 +23,12 @@ class Fighter extends Enemy
         sinCounter = PI/2;
         velocity.y = 50;
         shootTimer = new FlxTimer();
-        shootTimer.start(SHOT_COOLDOWN, shoot, 0);
+        var shotStagger = new FlxRandom().float(0, SHOT_COOLDOWN);
+        new FlxTimer().start(shotStagger, function(_:FlxTimer) {
+            if(alive) {
+                shootTimer.start(SHOT_COOLDOWN, shoot, 0);
+            }
+        });
     }
 
     private function shoot(_:FlxTimer)
