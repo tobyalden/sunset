@@ -9,7 +9,7 @@ class PlayState extends FlxState
 {
     public static inline var BACKDROP_SCROLL_SPEED = 200;
     public static inline var TIME_BETWEEN_WAVES = 1;
-    public static inline var MAX_ENEMIES = 1;
+    public static inline var MAX_ENEMIES = 16;
 
     private var player:Player;
     private var backdrop:FlxBackdrop;
@@ -29,16 +29,26 @@ class PlayState extends FlxState
 
     override public function update(elapsed:Float):Void
     {
+        // Damage enemies if they're touching
         FlxG.overlap(
-            Bullet.all, Enemy.all,
+            Bullet.playerAll, Enemy.all,
             function(bullet:FlxObject, enemy:FlxObject) {
                 bullet.destroy();
                 cast(enemy, Enemy).takeHit();
             }
         );
+
+        // Kill player if they're touching an enemy or an enemy's bullet
         FlxG.overlap(
             player, Enemy.all,
-            function(player, enemy:FlxObject) {
+            function(player:FlxObject, enemy:FlxObject) {
+                player.kill();
+            }
+        );
+        FlxG.overlap(
+            player, Bullet.enemyAll,
+            function(player:FlxObject, bullet:FlxObject) {
+                bullet.destroy();
                 player.kill();
             }
         );
@@ -49,17 +59,17 @@ class PlayState extends FlxState
         if(Enemy.all.countLiving() >= MAX_ENEMIES) {
             return;
         }
-        //var fighter:Enemy = new Fighter(0, 0, player);
-        //fighter.setStartPosition();
-        //add(fighter);
-        var rock:Enemy;
-        if(new FlxRandom().bool(25)) {
-            rock = new BigRock(0, 0, player);
-        }
-        else {
-            rock = new Rock(0, 0, player);
-        }
-        rock.setStartPosition();
-        add(rock);
+        var fighter:Enemy = new Fighter(0, 0, player);
+        fighter.setStartPosition();
+        add(fighter);
+        //var rock:Enemy;
+        //if(new FlxRandom().bool(25)) {
+            //rock = new BigRock(0, 0, player);
+        //}
+        //else {
+            //rock = new Rock(0, 0, player);
+        //}
+        //rock.setStartPosition();
+        //add(rock);
     }
 }

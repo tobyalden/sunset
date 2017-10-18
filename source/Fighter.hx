@@ -7,19 +7,34 @@ import flixel.util.*;
 class Fighter extends Enemy
 {
     public static inline var DODGE_WIDTH = 250;
-    public static inline var PI = 3.141592653589793;
+    public static inline var SHOT_COOLDOWN = 1;
+    public static inline var SHOT_SPEED = 200;
 
     private var sinCounter:Float;
+    private var shootTimer:FlxTimer;
 
-    public function new(x:Int, y:Int, player:Player) {
+    public function new(x:Int, y:Int, player:Player)
+    {
         super(x, y, player);
         loadGraphic('assets/images/fighter.png');
         health = 2;
         sinCounter = 0;
         velocity.y = 50;
+        shootTimer = new FlxTimer();
+        shootTimer.start(SHOT_COOLDOWN, shoot, 0);
     }
 
-    override public function movement() {
+    private function shoot(_:FlxTimer)
+    {
+        var bullet = new Bullet(
+            Std.int(x + width/2), Std.int(y + height/2),
+            new FlxPoint(0, SHOT_SPEED)
+        );
+        FlxG.state.add(bullet);
+    }
+
+    override public function movement()
+    {
         sinCounter += 0.1;
         velocity.x = Math.sin(sinCounter) * DODGE_WIDTH;
         if(y < height) {
@@ -30,13 +45,19 @@ class Fighter extends Enemy
         }
     }
 
-    override public function setStartPosition() {
+    override public function setStartPosition()
+    {
         x = new FlxRandom().int(
             Std.int(FlxG.width/3),
             Std.int(FlxG.width - width - FlxG.width/3)
         );
         y = -height;
     }
-        
+
+    override public function kill()
+    {
+        shootTimer.cancel();
+        super.destroy();
+    }
 }
 

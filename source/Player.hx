@@ -79,7 +79,8 @@ class Player extends FlxSprite
                 shootTimer.start(SHOT_COOLDOWN);
                 var bullet = new Bullet(
                     Std.int(x + width/2), Std.int(y + height/2),
-                    new FlxPoint(0, -SHOT_SPEED)
+                    new FlxPoint(0, -SHOT_SPEED),
+                    true
                 );
                 FlxG.state.add(bullet);
             }

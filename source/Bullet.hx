@@ -11,14 +11,22 @@ class Bullet extends FlxSprite
     public static inline var SIZE = 4;
     //private var hitSfx:FlxSound;
 
-    public static var all:FlxGroup = new FlxGroup();
+    public static var playerAll:FlxGroup = new FlxGroup();
+    public static var enemyAll:FlxGroup = new FlxGroup();
 
-    public function new(x:Int, y:Int, velocity:FlxPoint)
+    public function new(
+        x:Int, y:Int, velocity:FlxPoint, shotByPlayer:Bool=false
+    )
     {
         super(x - SIZE/2, y - SIZE/2);
         this.velocity = velocity;
         makeGraphic(SIZE, SIZE, FlxColor.WHITE);
-        all.add(this);
+        if(shotByPlayer) {
+            playerAll.add(this);
+        }
+        else {
+            enemyAll.add(this);
+        }
         //hitSfx = FlxG.sound.load('assets/sounds/hit.wav');
         //hitSfx.volume = 0.33;
     }
@@ -36,13 +44,15 @@ class Bullet extends FlxSprite
     {
         FlxG.state.add(new Explosion(this));
         //hitSfx.play(true);
-        all.remove(this);
+        playerAll.remove(this);
+        enemyAll.remove(this);
         super.destroy();
     }
 
     public function destroyQuietly()
     {
-        all.remove(this);
+        playerAll.remove(this);
+        enemyAll.remove(this);
         super.destroy();
     }
 }
