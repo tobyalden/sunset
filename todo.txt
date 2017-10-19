@@ -1,0 +1,17 @@
+
+WED
+THURS
+- add 6 more basic enemies
+FRI
+- add procedurally generated bosses
+SAT
+- add levels (i.e., figure out how to structure appearance of enemies)
+SUN
+- add bombs
+- add scoring / extra lives
+- add lives / game over
+MON
+- add title screen
+- add 2 player
+- add music
+- add sfx
