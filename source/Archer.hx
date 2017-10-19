@@ -78,7 +78,7 @@ class Archer extends Enemy
     override public function kill()
     {
         shootTimer.cancel();
-        super.destroy();
+        super.kill();
     }
 }
 

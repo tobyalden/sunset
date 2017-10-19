@@ -8,7 +8,7 @@ class Fighter extends Enemy
 {
     public static inline var PI = 3.14159265359;
 
-    public static inline var DODGE_WIDTH = 250;
+    public static inline var DODGE_WIDTH = 1500;
     public static inline var SHOT_COOLDOWN = 1;
     public static inline var SHOT_SPEED = 200;
 
@@ -24,6 +24,7 @@ class Fighter extends Enemy
         velocity.y = 50;
         shootTimer = new FlxTimer();
         staggerShot();
+        maxVelocity = new FlxPoint(200, 100);
     }
 
     private function staggerShot() {
@@ -37,6 +38,9 @@ class Fighter extends Enemy
 
     private function shoot(_:FlxTimer)
     {
+        if(!alive) {
+            return;
+        }
         var bullet = new Bullet(
             Std.int(x + width/2), Std.int(y + height/2),
             new FlxPoint(0, SHOT_SPEED)
@@ -47,7 +51,7 @@ class Fighter extends Enemy
     override public function movement()
     {
         sinCounter += 0.1;
-        velocity.x = Math.sin(sinCounter) * DODGE_WIDTH;
+        acceleration.x = Math.sin(sinCounter) * DODGE_WIDTH;
         if(y < height) {
             velocity.y = 50;
         }

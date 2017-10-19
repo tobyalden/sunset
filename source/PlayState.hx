@@ -59,23 +59,23 @@ class PlayState extends FlxState
         if(Enemy.all.countLiving() >= MAX_ENEMIES) {
             return;
         }
-        var crasher:Enemy = new Crasher(0, 0, player);
-        crasher.setStartPosition();
-        add(crasher);
+        //var crasher:Enemy = new Crasher(0, 0, player);
+        //crasher.setStartPosition();
+        //add(crasher);
         //var archer:Enemy = new Archer(0, 0, player);
         //archer.setStartPosition();
         //add(archer);
-        //var fighter:Enemy = new Fighter(0, 0, player);
-        //fighter.setStartPosition();
-        //add(fighter);
-        //var rock:Enemy;
-        //if(new FlxRandom().bool(25)) {
-            //rock = new BigRock(0, 0, player);
-        //}
-        //else {
-            //rock = new Rock(0, 0, player);
-        //}
-        //rock.setStartPosition();
-        //add(rock);
+        var fighter:Enemy = new Fighter(0, 0, player);
+        fighter.setStartPosition();
+        add(fighter);
+        var rock:Enemy;
+        if(new FlxRandom().bool(25)) {
+            rock = new BigRock(0, 0, player);
+        }
+        else {
+            rock = new Rock(0, 0, player);
+        }
+        rock.setStartPosition();
+        add(rock);
     }
 }
