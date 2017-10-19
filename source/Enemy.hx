@@ -26,7 +26,7 @@ class Enemy extends FlxSprite
     override public function update(elapsed:Float)
     {
         movement();
-        if(y > FlxG.height) {
+        if(y > FlxG.height || x + width < 0 || x > FlxG.width) {
             kill();
         }
         super.update(elapsed);

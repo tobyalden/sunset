@@ -6,7 +6,6 @@ import flixel.util.*;
 
 class Archer extends Enemy
 {
-
     public static inline var SPEED = 50;
     public static inline var SHOT_COOLDOWN = 2;
     public static inline var SHOT_SPEED = 250;

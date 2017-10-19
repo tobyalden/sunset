@@ -18,3 +18,4 @@ MON
 - add 2 player
 - add music
 - add sfx
+- make html5 version
