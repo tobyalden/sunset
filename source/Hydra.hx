@@ -4,28 +4,25 @@ import flixel.*;
 import flixel.math.*;
 import flixel.util.*;
 
-class Archer extends Enemy
+class Hydra extends Enemy
 {
     public static inline var SPEED = 50;
     public static inline var SHOT_COOLDOWN = 2;
-    public static inline var SHOT_SPEED = 250;
-    public static inline var TIME_BETWEEN_SHOTS = 0.1;
-    public static inline var SHOTS_IN_BURST = 3;
+    public static inline var SHOT_SPEED = 150;
+    public static inline var TIME_BETWEEN_SHOTS = 0.05;
+    public static inline var SHOTS_IN_BURST = 5;
     public static inline var TURN_THRESHOLD = 100;
 
     private var dropDistance:Float;
     private var shootTimer:FlxTimer;
-    private var bulletVelocity:FlxPoint;
 
     public function new(x:Int, y:Int, player:Player)
     {
         super(x, y, player);
-        loadGraphic('assets/images/archer.png', true, 16, 16);
-        animation.add('down', [0]);
-        animation.add('left', [1]);
-        animation.add('right', [2]);
-        animation.play('down');
-        health = 1;
+        loadGraphic('assets/images/hydra.png', true, 24, 24);
+        animation.add('idle', [0, 1, 0], 10);
+        animation.play('idle');
+        health = 4;
         dropDistance = new FlxRandom().float(10, FlxG.height/2);
         shootTimer = new FlxTimer();
         shootTimer.start(SHOT_COOLDOWN, shoot, 0);
@@ -33,7 +30,7 @@ class Archer extends Enemy
 
     private function shoot(_:FlxTimer)
     {
-        if(velocity.y > 0 || !alive) {
+        if(!alive) {
             return;
         }
         for(i in 0...SHOTS_IN_BURST) {
@@ -43,11 +40,26 @@ class Archer extends Enemy
                     if(!alive) {
                         return;
                     }
-                    var bullet = new Bullet(
+                    var bullet1 = new Bullet(
                         Std.int(x + width/2), Std.int(y + height/2),
-                        bulletVelocity
+                        new FlxPoint(SHOT_SPEED, SHOT_SPEED)
                     );
-                    FlxG.state.add(bullet);
+                    var bullet2 = new Bullet(
+                        Std.int(x + width/2), Std.int(y + height/2),
+                        new FlxPoint(-SHOT_SPEED, SHOT_SPEED)
+                    );
+                    var bullet3 = new Bullet(
+                        Std.int(x + width/2), Std.int(y + height/2),
+                        new FlxPoint(SHOT_SPEED, -SHOT_SPEED)
+                    );
+                    var bullet4 = new Bullet(
+                        Std.int(x + width/2), Std.int(y + height/2),
+                        new FlxPoint(-SHOT_SPEED, -SHOT_SPEED)
+                    );
+                    FlxG.state.add(bullet1);
+                    FlxG.state.add(bullet2);
+                    FlxG.state.add(bullet3);
+                    FlxG.state.add(bullet4);
                 }
             );
         }
@@ -61,18 +73,6 @@ class Archer extends Enemy
         else {
             velocity.y = 0;
         }
-        bulletVelocity = new FlxPoint(0, SHOT_SPEED);
-        if(x - player.x > TURN_THRESHOLD) {
-            bulletVelocity.x = -SHOT_SPEED;
-            animation.play('left');
-        }
-        else if(x - player.x < -TURN_THRESHOLD) {
-            bulletVelocity.x = SHOT_SPEED;
-            animation.play('right');
-        }
-        else {
-            animation.play('down');
-        }
     }
 
     override public function kill()
@@ -81,5 +81,6 @@ class Archer extends Enemy
         super.kill();
     }
 }
+
 
 

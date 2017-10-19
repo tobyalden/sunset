@@ -65,17 +65,20 @@ class PlayState extends FlxState
         //var archer:Enemy = new Archer(0, 0, player);
         //archer.setStartPosition();
         //add(archer);
-        var fighter:Enemy = new Fighter(0, 0, player);
-        fighter.setStartPosition();
-        add(fighter);
-        var rock:Enemy;
-        if(new FlxRandom().bool(25)) {
-            rock = new BigRock(0, 0, player);
-        }
-        else {
-            rock = new Rock(0, 0, player);
-        }
-        rock.setStartPosition();
-        add(rock);
+        //var fighter:Enemy = new Fighter(0, 0, player);
+        //fighter.setStartPosition();
+        //add(fighter);
+        var hydra:Enemy = new Hydra(0, 0, player);
+        hydra.setStartPosition();
+        add(hydra);
+        //var rock:Enemy;
+        //if(new FlxRandom().bool(25)) {
+            //rock = new BigRock(0, 0, player);
+        //}
+        //else {
+            //rock = new Rock(0, 0, player);
+        //}
+        //rock.setStartPosition();
+        //add(rock);
     }
 }
