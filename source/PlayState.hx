@@ -9,7 +9,7 @@ class PlayState extends FlxState
 {
     public static inline var BACKDROP_SCROLL_SPEED = 200;
     public static inline var TIME_BETWEEN_WAVES = 1;
-    public static inline var MAX_ENEMIES = 16;
+    public static inline var MAX_ENEMIES = 3;
 
     private var player:Player;
     private var backdrop:FlxBackdrop;
@@ -59,6 +59,9 @@ class PlayState extends FlxState
         if(Enemy.all.countLiving() >= MAX_ENEMIES) {
             return;
         }
+        var archer:Enemy = new Archer(0, 0, player);
+        archer.setStartPosition();
+        add(archer);
         var fighter:Enemy = new Fighter(0, 0, player);
         fighter.setStartPosition();
         add(fighter);
