@@ -83,9 +83,12 @@ class PlayState extends FlxState
         //var turret:Enemy = new Turret(0, 0, player);
         //turret.setStartPosition();
         //add(turret);
-        var eye:Enemy = new Eye(0, 0, player);
-        eye.setStartPosition();
-        add(eye);
+        //var eye:Enemy = new Eye(0, 0, player);
+        //eye.setStartPosition();
+        //add(eye);
+        var star:Enemy = new Star(0, 0, player);
+        star.setStartPosition();
+        add(star);
         //var rock:Enemy;
         //if(new FlxRandom().bool(25)) {
             //rock = new BigRock(0, 0, player);

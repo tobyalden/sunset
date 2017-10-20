@@ -22,6 +22,10 @@ class Player extends FlxSprite
         loadGraphic('assets/images/player.png');
         shootTimer = new FlxTimer();
         invincible = new FlxTimer();
+        width = 8;
+        height = 8;
+        offset.x = 8;
+        offset.y = 8;
     }
 
     override public function update(elapsed:Float)
