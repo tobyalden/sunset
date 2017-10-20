@@ -74,9 +74,12 @@ class PlayState extends FlxState
         //var creeper:Enemy = new Creeper(0, 0, player);
         //creeper.setStartPosition();
         //add(creeper);
-        var fossil:Enemy = new Fossil(0, 0, player);
-        fossil.setStartPosition();
-        add(fossil);
+        //var fossil:Enemy = new Fossil(0, 0, player);
+        //fossil.setStartPosition();
+        //add(fossil);
+        var demon:Enemy = new Demon(0, 0, player);
+        demon.setStartPosition();
+        add(demon);
         //var rock:Enemy;
         //if(new FlxRandom().bool(25)) {
             //rock = new BigRock(0, 0, player);
