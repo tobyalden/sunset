@@ -32,6 +32,7 @@ class Player extends FlxSprite
     }
 
     override public function kill() {
+        velocity.set(0, 0);
         if(invincible.active) {
             return;
         }
