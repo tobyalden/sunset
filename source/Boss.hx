@@ -13,19 +13,22 @@ class Boss extends Enemy
     public static inline var TIME_BETWEEN_SHOTS = 0.2;
     public static inline var SHOTS_IN_BURST = 5;
     public static inline var TIME_BETWEEN_PHASES = 10;
-    public static inline var NUMBER_OF_PHASES = 2;
+    public static inline var NUMBER_OF_PHASES = 3;
     public static inline var SPIN_SPEED = 15;
 
     private var shootTimer:FlxTimer;
     private var phase:Int;
     private var spinOffset:Float;
 
+    // TODO: add difficulty parameter that unlocks phases, gives more health, and makes slightly faster
     public function new(x:Int, y:Int, player:Player)
     {
         super(x, y, player);
         loadGraphic('assets/images/boss.png', true, 64, 64);
         animation.add('idle', [0]);
         animation.add('freak', [1, 2, 3], 10);
+        animation.add('idle2', [4]);
+        animation.add('freak2', [5, 6, 7], 10);
         animation.play('idle');
         health = 50;
         spinOffset = 1;
@@ -33,7 +36,8 @@ class Boss extends Enemy
         shootTimer.start(SHOT_COOLDOWN, shoot, 0);
         var rand = new FlxRandom();
         velocity.set(rand.sign() * SPEED, SPEED);
-        phase = new FlxRandom().int(1, NUMBER_OF_PHASES);
+        //phase = new FlxRandom().int(1, NUMBER_OF_PHASES);
+        phase = 1;
         new FlxTimer().start(TIME_BETWEEN_PHASES, function(_:FlxTimer) {
             phase += 1;
             if(phase > NUMBER_OF_PHASES) {
@@ -50,7 +54,7 @@ class Boss extends Enemy
         if(phase == 1) {
             phaseOneShot();
         }
-        else if(phase == 2) {
+        else if(phase == 2 || phase == 3) {
             phaseTwoShot();
         }
     }
@@ -66,11 +70,16 @@ class Boss extends Enemy
                     if(!alive) {
                         return;
                     }
+                    var sign = 1;
+                    if(phase == 3) {
+                        sign = -1;
+                    }
                     spinOffset += SPIN_SPEED;
                     var angle = FlxAngle.angleBetweenPoint(
                         this, new FlxPoint(0, 0), true
                     );
                     angle += spinOffset;
+                    angle *= sign;
                     var bulletVelocity = FlxVelocity.velocityFromAngle(
                         angle, SHOT_SPEED
                     );
@@ -83,6 +92,7 @@ class Boss extends Enemy
                         this, new FlxPoint(FlxG.width, 0), true
                     );
                     angle2 += spinOffset;
+                    angle2 *= sign;
                     var bulletVelocity2 = FlxVelocity.velocityFromAngle(
                         angle2, SHOT_SPEED
                     );
@@ -95,6 +105,7 @@ class Boss extends Enemy
                         this, new FlxPoint(FlxG.width, FlxG.height), true
                     );
                     angle3 += spinOffset;
+                    angle3 *= sign;
                     var bulletVelocity3 = FlxVelocity.velocityFromAngle(
                         angle3, SHOT_SPEED
                     );
@@ -107,6 +118,7 @@ class Boss extends Enemy
                         this, new FlxPoint(0, FlxG.height), true
                     );
                     angle4 += spinOffset;
+                    angle4 *= sign;
                     var bulletVelocity4 = FlxVelocity.velocityFromAngle(
                         angle4, SHOT_SPEED
                     );
@@ -152,6 +164,22 @@ class Boss extends Enemy
     override public function movement()
     {
         if(phase == 1) {
+            if(health < 15) {
+                animation.play('freak');
+            }
+            else {
+                animation.play('idle');
+            }
+        }
+        else {
+            if(health < 15) {
+                animation.play('freak2');
+            }
+            else {
+                animation.play('idle2');
+            }
+        }
+        if(phase == 1 || phase == 3) {
             if(x < 0) {
                 x = 0;
                 velocity.x = SPEED;
