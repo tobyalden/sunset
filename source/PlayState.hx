@@ -86,9 +86,12 @@ class PlayState extends FlxState
         //var eye:Enemy = new Eye(0, 0, player);
         //eye.setStartPosition();
         //add(eye);
-        var star:Enemy = new Star(0, 0, player);
-        star.setStartPosition();
-        add(star);
+        var slither:Enemy = new Slither(0, 0, player);
+        slither.setStartPosition();
+        add(slither);
+        //var star:Enemy = new Star(0, 0, player);
+        //star.setStartPosition();
+        //add(star);
         //var rock:Enemy;
         //if(new FlxRandom().bool(25)) {
             //rock = new BigRock(0, 0, player);
