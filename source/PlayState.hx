@@ -22,18 +22,19 @@ class PlayState extends FlxState
         backdrop.velocity.set(0, BACKDROP_SCROLL_SPEED);
         waveTimer = new FlxTimer();
         waves = [
-            new Wave(['archer'], 10, player),
-            new Wave(['crasher'], 10, player),
-            //new Wave(['creeper'], 10, player),
-            //new Wave(['demon'], 10, player),
-            //new Wave(['eye'], 10, player),
-            //new Wave(['fighter'], 10, player),
-            //new Wave(['fossil'], 10, player),
-            //new Wave(['hydra'], 10, player),
-            //new Wave(['slither'], 10, player),
-            //new Wave(['star'], 10, player),
-            new Wave(['turret'], 10, player)
+            new Wave(['archer', 'slither', 'slither'], 5, player),
+            //new Wave(['crasher', 'devil'], 5, player),
+            //new Wave(['creeper', 'demon', 'demon'], 6, player),
+            //new Wave(['demon', 'eye'], 5, player),
+            //new Wave(['eye', 'eye'], 5, player),
+            //new Wave(['fighter', 'fossil'], 6, player),
+            //new Wave(['fossil', 'hydra'], 4, player),
+            //new Wave(['hydra', 'star'], 6, player),
+            //new Wave(['slither', 'slither'], 5, player),
+            //new Wave(['star', 'archer', 'archer'], 6, player),
+            new Wave(['turret', 'turret', 'turret'], 5, player)
         ];
+        new FlxRandom().shuffle(waves);
         add(backdrop);
         add(player);
         sendNextWave(null);
@@ -42,7 +43,7 @@ class PlayState extends FlxState
 
     override public function update(elapsed:Float):Void
     {
-        if(Enemy.all.countLiving() <= 0 && waveTimer.timeLeft > 0.5) {
+        if(Enemy.all.countLiving() <= 1 && waveTimer.timeLeft > 0.5) {
             waveTimer.reset(0.5);
         }
         // Damage enemies if they're touching
@@ -74,9 +75,14 @@ class PlayState extends FlxState
     private function sendNextWave(_:FlxTimer) {
         var wave = waves.pop();
         if (wave == null) {
+            if(Enemy.all.countLiving() > 0) {
+                waveTimer.reset();
+                return;
+            }
             var boss:Enemy = new Boss(0, 0, player);
             boss.setStartPosition();
             add(boss);
+            // dont forget boss difficulty,.. and rocks..
             return;
         }
         wave.activate();
