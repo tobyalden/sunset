@@ -8,12 +8,12 @@ import flixel.util.*;
 class PlayState extends FlxState
 {
     public static inline var BACKDROP_SCROLL_SPEED = 200;
-    public static inline var TIME_BETWEEN_WAVES = 1;
     public static inline var MAX_ENEMIES = 1;
 
     private var player:Player;
     private var backdrop:FlxBackdrop;
     private var waveTimer:FlxTimer;
+    private var waves:Array<Wave>;
 
     override public function create():Void
     {
@@ -21,9 +21,22 @@ class PlayState extends FlxState
         backdrop = new FlxBackdrop('assets/images/backdrop.png');
         backdrop.velocity.set(0, BACKDROP_SCROLL_SPEED);
         waveTimer = new FlxTimer();
-        waveTimer.start(TIME_BETWEEN_WAVES, sendWave, 0);
+        waves = [
+            new Wave(['archer'], 10, player),
+            new Wave(['crasher'], 10, player),
+            new Wave(['creeper'], 10, player),
+            new Wave(['demon'], 10, player),
+            new Wave(['eye'], 10, player),
+            new Wave(['fighter'], 10, player),
+            new Wave(['fossil'], 10, player),
+            new Wave(['hydra'], 10, player),
+            new Wave(['slither'], 10, player),
+            new Wave(['star'], 10, player),
+            new Wave(['turret'], 10, player)
+        ];
         add(backdrop);
         add(player);
+        sendNextWave(null);
         super.create();
     }
 
@@ -55,54 +68,28 @@ class PlayState extends FlxState
         super.update(elapsed);
     }
 
-    private function sendWave(_:FlxTimer) {
-        if(Enemy.all.countLiving() >= MAX_ENEMIES) {
-            return;
+    private function sendNextWave(_:FlxTimer) {
+        var wave = waves.pop();
+        if (wave == null) {
+            return; // spawn boss
         }
-        //var crasher:Enemy = new Crasher(0, 0, player);
-        //crasher.setStartPosition();
-        //add(crasher);
-        //var archer:Enemy = new Archer(0, 0, player);
-        //archer.setStartPosition();
-        //add(archer);
-        var boss:Enemy = new Boss(0, 0, player, 0.66);
-        boss.setStartPosition();
-        add(boss);
-        //var fighter:Enemy = new Fighter(0, 0, player);
-        //fighter.setStartPosition();
-        //add(fighter);
-        //var hydra:Enemy = new Hydra(0, 0, player);
-        //hydra.setStartPosition();
-        //add(hydra);
-        //var creeper:Enemy = new Creeper(0, 0, player);
-        //creeper.setStartPosition();
-        //add(creeper);
-        //var fossil:Enemy = new Fossil(0, 0, player);
-        //fossil.setStartPosition();
-        //add(fossil);
-        //var demon:Enemy = new Demon(0, 0, player);
-        //demon.setStartPosition();
-        //add(demon);
-        //var turret:Enemy = new Turret(0, 0, player);
-        //turret.setStartPosition();
-        //add(turret);
-        //var eye:Enemy = new Eye(0, 0, player);
-        //eye.setStartPosition();
-        //add(eye);
-        //var slither:Enemy = new Slither(0, 0, player);
-        //slither.setStartPosition();
-        //add(slither);
-        //var star:Enemy = new Star(0, 0, player);
-        //star.setStartPosition();
-        //add(star);
-        //var rock:Enemy;
+        wave.activate();
+        for (enemy in wave.enemies) {
+            enemy.setStartPosition();
+            add(enemy);
+        }
+        waveTimer.start(wave.timeTillNext, sendNextWave, 1);
         //if(new FlxRandom().bool(25)) {
             //rock = new BigRock(0, 0, player);
         //}
         //else {
             //rock = new Rock(0, 0, player);
         //}
-        //rock.setStartPosition();
-        //add(rock);
+        //var turret:Enemy = new Turret(0, 0, player);
+        //turret.setStartPosition();
+        //add(turret);
+        //var turret:Enemy = new Archer(0, 0, player);
+        //turret.setStartPosition();
+        //add(turret);
     }
 }

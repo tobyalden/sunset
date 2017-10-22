@@ -74,6 +74,3 @@ class Turret extends Enemy
         super.kill();
     }
 }
-
-
-
