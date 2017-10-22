@@ -24,14 +24,14 @@ class PlayState extends FlxState
         waves = [
             new Wave(['archer'], 10, player),
             new Wave(['crasher'], 10, player),
-            new Wave(['creeper'], 10, player),
-            new Wave(['demon'], 10, player),
-            new Wave(['eye'], 10, player),
-            new Wave(['fighter'], 10, player),
-            new Wave(['fossil'], 10, player),
-            new Wave(['hydra'], 10, player),
-            new Wave(['slither'], 10, player),
-            new Wave(['star'], 10, player),
+            //new Wave(['creeper'], 10, player),
+            //new Wave(['demon'], 10, player),
+            //new Wave(['eye'], 10, player),
+            //new Wave(['fighter'], 10, player),
+            //new Wave(['fossil'], 10, player),
+            //new Wave(['hydra'], 10, player),
+            //new Wave(['slither'], 10, player),
+            //new Wave(['star'], 10, player),
             new Wave(['turret'], 10, player)
         ];
         add(backdrop);
@@ -42,6 +42,9 @@ class PlayState extends FlxState
 
     override public function update(elapsed:Float):Void
     {
+        if(Enemy.all.countLiving() <= 0 && waveTimer.timeLeft > 0.5) {
+            waveTimer.reset(0.5);
+        }
         // Damage enemies if they're touching
         FlxG.overlap(
             Bullet.playerAll, Enemy.all,
@@ -71,7 +74,10 @@ class PlayState extends FlxState
     private function sendNextWave(_:FlxTimer) {
         var wave = waves.pop();
         if (wave == null) {
-            return; // spawn boss
+            var boss:Enemy = new Boss(0, 0, player);
+            boss.setStartPosition();
+            add(boss);
+            return;
         }
         wave.activate();
         for (enemy in wave.enemies) {
