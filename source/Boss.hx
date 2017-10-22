@@ -183,6 +183,13 @@ class Boss extends Enemy
         }
     }
 
+    override public function takeHit() {
+        super.takeHit();
+        if(health == 14) {
+            difficulty += 0.3; 
+        }
+    }
+
     override public function movement()
     {
         if(phase == 1) {

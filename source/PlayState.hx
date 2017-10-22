@@ -65,7 +65,7 @@ class PlayState extends FlxState
         //var archer:Enemy = new Archer(0, 0, player);
         //archer.setStartPosition();
         //add(archer);
-        var boss:Enemy = new Boss(0, 0, player, 1);
+        var boss:Enemy = new Boss(0, 0, player, 0.66);
         boss.setStartPosition();
         add(boss);
         //var fighter:Enemy = new Fighter(0, 0, player);
