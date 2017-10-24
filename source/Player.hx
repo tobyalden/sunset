@@ -1,6 +1,7 @@
 package;
 
 import flixel.*;
+import flixel.system.*;
 import flixel.effects.*;
 import flixel.math.*;
 import flixel.util.*;
@@ -17,6 +18,8 @@ class Player extends FlxSprite
     private var shootTimer:FlxTimer;
     private var invincible:FlxTimer;
     private var lives:Int;
+    private var shootSfx:FlxSound;
+    private var explodeSfx:FlxSound;
 
     public function new(x:Int, y:Int)
     {
@@ -31,6 +34,8 @@ class Player extends FlxSprite
         //lives = 10;
         lives = 2;
         gameIsOver = false;
+        shootSfx = FlxG.sound.load('assets/sounds/shoot.wav');
+        explodeSfx = FlxG.sound.load('assets/sounds/playerexplode.wav');
     }
 
     override public function update(elapsed:Float)
@@ -42,6 +47,7 @@ class Player extends FlxSprite
 
     override public function kill() {
         velocity.set(0, 0);
+        explodeSfx.play();
         if(invincible.active) {
             return;
         }
@@ -109,6 +115,7 @@ class Player extends FlxSprite
                     true
                 );
                 FlxG.state.add(bullet);
+                shootSfx.play();
             }
         }
     }

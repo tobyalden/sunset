@@ -12,11 +12,15 @@ class Enemy extends FlxSprite
     static public var all:FlxGroup = new FlxGroup();
 
     private var player:Player;
+    private var hitSfx:FlxSound;
+    private var explodeSfx:FlxSound;
 
     public function new(x:Int, y:Int, player:Player) {
         super(x, y);
         this.player = player;
         all.add(this);
+        hitSfx = FlxG.sound.load('assets/sounds/hit.wav');
+        explodeSfx = FlxG.sound.load('assets/sounds/explode.wav');
     }
 
     public function movement() {
@@ -47,9 +51,11 @@ class Enemy extends FlxSprite
         health -= 1;
         if(health <= 0) {
             kill();
+            explodeSfx.play();
         }
         else {
             FlxFlicker.flicker(this, 0.2);
+            hitSfx.play();
         }
     }
 }

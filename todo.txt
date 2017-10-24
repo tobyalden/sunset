@@ -1,9 +1,9 @@
 NEED:
 - add levels
-- add lives / game over
++ add lives / game over
 - add different, more complicated backgrounds
-- add title screen
-- add music
++ add title screen
++ add music
 - add sfx
 WANT:
 - add bombs
