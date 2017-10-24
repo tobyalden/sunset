@@ -13,6 +13,7 @@ class Player extends FlxSprite
     public static inline var RESPAWN_TIME = 1.5;
     public static inline var INVINCIBLE_TIME = 1.25;
 
+    public var gameIsOver:Bool;
     private var shootTimer:FlxTimer;
     private var invincible:FlxTimer;
     private var lives:Int;
@@ -27,7 +28,9 @@ class Player extends FlxSprite
         height = 8;
         offset.x = 8;
         offset.y = 8;
-        lives = 3;
+        //lives = 10;
+        lives = 2;
+        gameIsOver = false;
     }
 
     override public function update(elapsed:Float)
@@ -44,15 +47,31 @@ class Player extends FlxSprite
         }
         FlxG.state.add(new Explosion(this));
         new FlxTimer().start(RESPAWN_TIME, function(_:FlxTimer) {
-            respawn();
+            if(lives > 0) {
+                respawn();
+            }
+            else {
+                gameOver();
+            }
         });
+        lives -= 1;
         super.kill();
     }
 
     private function respawn() {
+        FlxG.sound.load('assets/sounds/' + lives + 'left.wav').play();
         revive();
         invincible.start(INVINCIBLE_TIME);
         FlxFlicker.flicker(this, INVINCIBLE_TIME);
+    }
+
+    private function gameOver() {
+        gameIsOver = true;
+        FlxG.sound.music.stop();
+        FlxG.sound.load('assets/sounds/gameover.wav').play();
+        new FlxTimer().start(7, function(_:FlxTimer) {
+            FlxG.switchState(new TitleScreen());
+        });
     }
 
     private function movement()

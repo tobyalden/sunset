@@ -15,6 +15,7 @@ class PlayState extends FlxState
     private var backdrop:FlxBackdrop;
     private var waveTimer:FlxTimer;
     private var waves:Array<Wave>;
+    private var gameOver:FlxSprite;
 
     override public function create():Void
     {
@@ -49,8 +50,12 @@ class PlayState extends FlxState
             new Wave(['turret', 'turret', 'turret', 'turret'], 4, player)
         ];
         new FlxRandom().shuffle(waves);
+        gameOver = new FlxSprite(0, 0);
+        gameOver.loadGraphic('assets/images/gameover.png');
         add(backdrop);
         add(player);
+        add(gameOver);
+        gameOver.visible = false;
         sendNextWave(null);
         var startSfx = FlxG.sound.load('assets/sounds/start.wav');
         startSfx.play();
@@ -62,6 +67,7 @@ class PlayState extends FlxState
 
     override public function update(elapsed:Float):Void
     {
+        gameOver.visible = player.gameIsOver;
         if(Enemy.all.countLiving() <= 1 && waveTimer.timeLeft > 0.5) {
             waveTimer.reset(0.5);
         }
