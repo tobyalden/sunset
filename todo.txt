@@ -1,5 +1,4 @@
 NEED:
-- add levels
 - add ending
 - boss difficulty
 WANT:

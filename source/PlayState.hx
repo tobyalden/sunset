@@ -151,7 +151,26 @@ class PlayState extends FlxState
                 waveTimer.reset();
                 return;
             }
-            var boss = new Boss(0, 0, player);
+            var difficulty = 0.5;
+            if(currentLevel == 2) {
+                difficulty = 0.6;
+            }
+            else if(currentLevel == 3) {
+                difficulty = 0.7;
+            }
+            else if(currentLevel == 4) {
+                difficulty = 0.75;
+            }
+            else if(currentLevel == 5) {
+                difficulty = 0.8;
+            }
+            else if(currentLevel == 6) {
+                difficulty = 0.9;
+            }
+            else if(currentLevel == 7) {
+                difficulty = 1;
+            }
+            var boss = new Boss(0, 0, player, difficulty);
             boss.setStartPosition();
             add(boss);
             // dont forget boss difficulty,.. and rocks..
