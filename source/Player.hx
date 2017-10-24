@@ -119,7 +119,7 @@ class Player extends FlxSprite
             velocity.scale(0.707106781);
         }
 
-        if(Controls.checkPressed('shoot')) {
+        if(Controls.checkPressed('shoot') || Controls.checkPressed('jump')) {
             if(!shootTimer.active) {
                 shootTimer.start(SHOT_COOLDOWN);
                 var bullet = new Bullet(

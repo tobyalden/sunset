@@ -32,7 +32,12 @@ class TitleScreen extends FlxState
 
     override public function update(elapsed:Float):Void
     {
-        if(FlxG.keys.firstJustPressed() != -1) {
+        Controls.controller = FlxG.gamepads.getByID(0);
+        if(
+            Controls.checkPressed('shoot')
+            || Controls.checkPressed('jump')
+            || FlxG.keys.firstJustPressed() != -1
+        ) {
             FlxG.switchState(new PlayState());
             FlxG.sound.music.stop();
         }

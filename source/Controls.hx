@@ -6,7 +6,7 @@ import flixel.input.keyboard.*;
 
 class Controls {
 
-    public static inline var DEAD_ZONE = 0.25;
+    public static inline var DEAD_ZONE = 0.5;
     public static var KEYBOARD_CONTROLS = [
         'up'=>FlxKey.UP,
         'down'=>FlxKey.DOWN,
@@ -31,16 +31,28 @@ class Controls {
                 return controller.pressed.A;
             } 
             if(name == 'left') {
-                return controller.analog.value.LEFT_STICK_X < -DEAD_ZONE;
+                return (
+                    controller.analog.value.LEFT_STICK_X < -DEAD_ZONE
+                    || controller.pressed.DPAD_LEFT
+                );
             }
             if(name == 'right') {
-                return controller.analog.value.LEFT_STICK_X > DEAD_ZONE;
+                return (
+                    controller.analog.value.LEFT_STICK_X > DEAD_ZONE
+                    || controller.pressed.DPAD_RIGHT
+                );
             }
             if(name == 'up') {
-                return controller.analog.value.LEFT_STICK_Y < -DEAD_ZONE;
+                return (
+                    controller.analog.value.LEFT_STICK_Y < -DEAD_ZONE
+                    || controller.pressed.DPAD_UP
+                );
             }
             if(name == 'down') {
-                return controller.analog.value.LEFT_STICK_Y > DEAD_ZONE;
+                return (
+                    controller.analog.value.LEFT_STICK_Y > DEAD_ZONE
+                    || controller.pressed.DPAD_DOWN
+                );
             }
         }
         return false;

@@ -175,6 +175,7 @@ class PlayState extends FlxState
 
     override public function update(elapsed:Float):Void
     {
+        Controls.controller = FlxG.gamepads.getByID(0);
         gameOver.visible = player.gameIsOver;
         if(Enemy.all.countLiving() <= 1 && waveTimer.timeLeft > 0.5) {
             waveTimer.reset(0.5);
