@@ -1,13 +1,13 @@
 WED
-- add 6 more basic enemies
++ add 6 more basic enemies
 THURS
-- add 6 more basic enemies
-- add procedurally generated bosses
++ add 6 more basic enemies
++ add procedurally generated bosses
 FRI
-- add procedurally generated bosses
++ add procedurally generated bosses
 SAT
-- add procedurally generated bosses
-- add levels (i.e., figure out how to structure appearance of enemies)
++ add procedurally generated bosses
++ add levels (i.e., figure out how to structure appearance of enemies)
 SUN
 - add bombs
 - add scoring / extra lives
