@@ -1,10 +1,7 @@
 NEED:
 - add levels
-+ add lives / game over
 - add different, more complicated backgrounds
-+ add title screen
-+ add music
-- add sfx
+- add ending
 WANT:
 - add bombs
 - add scoring / extra lives

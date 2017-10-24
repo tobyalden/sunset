@@ -13,6 +13,7 @@ class PlayState extends FlxState
 
     private var player:Player;
     private var backdrop:FlxBackdrop;
+    private var clouds:FlxBackdrop;
     private var waveTimer:FlxTimer;
     private var waves:Array<Wave>;
     private var gameOver:FlxSprite;
@@ -22,6 +23,8 @@ class PlayState extends FlxState
         player = new Player(Std.int(FlxG.width/2), FlxG.height - 30);
         backdrop = new FlxBackdrop('assets/images/backdrop.png');
         backdrop.velocity.set(0, BACKDROP_SCROLL_SPEED);
+        clouds = new FlxBackdrop('assets/images/clouds.png');
+        clouds.velocity.set(0, BACKDROP_SCROLL_SPEED + 20);
         waveTimer = new FlxTimer();
         // archer, crasher, creeper, demon, eye
         // fighter, fossil, hydra, slither, star, turret
@@ -53,6 +56,7 @@ class PlayState extends FlxState
         gameOver = new FlxSprite(0, 0);
         gameOver.loadGraphic('assets/images/gameover.png');
         add(backdrop);
+        add(clouds);
         add(player);
         add(gameOver);
         gameOver.visible = false;
