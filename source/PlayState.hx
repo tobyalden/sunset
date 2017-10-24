@@ -22,9 +22,11 @@ class PlayState extends FlxState
     private var levelComplete:FlxSprite;
     private var youWin:FlxSprite;
     private var currentLevel:Int;
+    private var spawnBoss:Bool;
 
     override public function create():Void
     {
+        spawnBoss = true;
         player = new Player(Std.int(FlxG.width/2), FlxG.height - 30);
         backdrop = new FlxBackdrop('assets/images/backdrop.png');
         backdrop.velocity.set(0, BACKDROP_SCROLL_SPEED);
@@ -36,41 +38,109 @@ class PlayState extends FlxState
         allWaves = new Array<Array<Wave>>();
         // level 1
         allWaves.push([
-            new Wave(['rock', 'rock', 'rock', 'rock'], 5, player),
-            new Wave(['rock', 'rock', 'rock', 'rock'], 5, player),
-            new Wave(['rock', 'rock', 'rock', 'rock'], 5, player)
-        ]);
-        allWaves.push([
-            new Wave(['fossil'], 7, player)
-        ]);
-        allWaves.push([
-            new Wave(['crasher'], 7, player)
-        ]);
-        allWaves.push([
-            new Wave(['demon'], 7, player)
-        ]);
-        allWaves.push([
             new Wave(['fossil', 'fossil'], 7, player),
-            new Wave(['crasher', 'crasher'], 5, player),
-            new Wave(['fighter'], 10, player),
-            new Wave(['demon'], 10, player),
-            new Wave(['demon'], 10, player),
-            new Wave(['eye', 'eye'], 7, player),
-            new Wave(['archer', 'archer'], 7, player),
-            new Wave(['hydra'], 5, player),
-            new Wave(['slither'], 5, player),
-            new Wave(['turret', 'turret', 'turret'], 5, player)
+            new Wave(['crasher', 'crasher'], 6, player),
+            //new Wave(['fighter'], 10, player),
+            //new Wave(['demon'], 10, player),
+            //new Wave(['demon'], 10, player),
+            //new Wave(['eye'], 7, player),
+            //new Wave(['archer'], 7, player),
+            //new Wave(['hydra'], 5, player),
+            //new Wave(['slither'], 5, player),
+            //new Wave(['turret', 'turret'], 5, player),
+            //new Wave(['rock', 'rock', 'rock', 'rock'], 5, player),
+            //new Wave(['rock', 'rock', 'rock', 'rock'], 5, player)
+        ]);
+        // level 2
+        allWaves.push([
+            new Wave(['fossil', 'creeper'], 7, player),
+            new Wave(['crasher', 'hydra'], 6, player),
+            //new Wave(['fighter'], 8, player),
+            //new Wave(['demon'], 7, player),
+            //new Wave(['demon'], 7, player),
+            //new Wave(['eye', 'eye'], 7, player),
+            //new Wave(['archer', 'archer'], 7, player),
+            //new Wave(['hydra', 'star'], 5, player),
+            //new Wave(['crasher', 'crasher'], 5, player),
+            //new Wave(['crasher', 'crasher'], 5, player),
+            //new Wave(['turret', 'turret', 'turret'], 5, player),
+            //new Wave(['rock', 'rock', 'rock', 'rock', 'rock'], 5, player),
+            //new Wave(['rock', 'rock', 'rock', 'rock', 'rock'], 5, player)
+        ]);
+        // level 3
+        allWaves.push([
+            new Wave(['archer', 'creeper'], 7, player),
+            new Wave(['hydra', 'hydra', 'hydra'], 6, player),
+            //new Wave(['fighter'], 7, player),
+            //new Wave(['demon'], 4, player),
+            //new Wave(['demon'], 5, player),
+            //new Wave(['turret', 'eye', 'turret'], 7, player),
+            //new Wave(['archer', 'archer'], 7, player),
+            //new Wave(['hydra', 'star'], 5, player),
+            //new Wave(['crasher', 'crasher', 'crasher'], 7, player),
+            //new Wave(['crasher', 'crasher'], 5, player),
+            //new Wave(['turret', 'turret', 'turret'], 5, player),
+            //new Wave(['rock', 'rock', 'rock', 'rock', 'rock'], 5, player),
+            //new Wave(['rock', 'rock', 'rock', 'rock', 'rock'], 5, player)
+        ]);
+        // level 4
+        allWaves.push([
+            //new Wave(['archer', 'eye', 'eye'], 7, player),
+            //new Wave(['hydra', 'slither', 'hydra'], 6, player),
+            //new Wave(['rock', 'rock', 'turret', 'turret', 'rock'], 7, player),
+            //new Wave(['demon', 'fighter', 'creeper'], 4, player),
+            //new Wave(['demon', 'creeper'], 5, player),
+            //new Wave(['crasher', 'turret', 'crasher', 'turret', 'turret'], 7, player),
+            //new Wave(['archer', 'archer', 'star'], 7, player),
+            //new Wave(['hydra', 'star', 'fossil'], 6, player),
+            //new Wave(['crasher', 'crasher', 'crasher'], 7, player),
+            //new Wave(['crasher', 'crasher'], 5, player),
+            new Wave(['turret', 'turret', 'turret'], 5, player),
+            new Wave(['rock', 'rock', 'rock', 'rock', 'rock'], 5, player),
+            new Wave(['rock', 'rock', 'rock', 'rock', 'rock'], 5, player)
+        ]);
+        // level 5
+        allWaves.push([
+            //new Wave(['archer', 'eye', 'eye'], 6, player),
+            //new Wave(['hydra', 'slither', 'hydra'], 5, player),
+            //new Wave(['rock', 'rock', 'turret', 'turret', 'rock'], 7, player),
+            //new Wave(['fighter', 'fighter', 'rock', 'rock', 'rock'], 6, player),
+            //new Wave(['demon', 'turret', 'creeper'], 5, player),
+            //new Wave(['crasher', 'turret', 'crasher', 'turret', 'turret'], 7, player),
+            //new Wave(['archer', 'star', 'star', 'creeper'], 6, player),
+            //new Wave(['hydra', 'star', 'fossil'], 6, player),
+            //new Wave(['crasher', 'crasher', 'crasher', 'rock', 'rock'], 6, player),
+            //new Wave(['crasher', 'crasher', 'crasher', 'rock', 'rock'], 5, player),
+            new Wave(['turret', 'turret', 'turret'], 5, player),
+            new Wave(['rock', 'rock', 'rock', 'rock', 'rock', 'rock', 'creeper'], 4, player),
+            new Wave(['rock', 'rock', 'rock', 'rock', 'rock', 'rock'], 4, player)
+        ]);
+        // level 6
+        allWaves.push([
+            //new Wave(['crasher', 'turret', 'crasher', 'turret', 'turret'], 6, player),
+            //new Wave(['fossil', 'crasher', 'star'], 6, player),
+            //new Wave(['fossil', 'fossil', 'crasher', 'hydra'], 3, player),
+            //new Wave(['crasher', 'crasher', 'turret', 'eye'], 5, player),
+            //new Wave(['fighter', 'fighter'], 4, player),
+            //new Wave(['demon', 'demon', 'creeper'], 2, player),
+            //new Wave(['demon', 'hydra', 'creeper', 'rock', 'rock'], 4, player),
+            //new Wave(['eye', 'slither', 'turret', 'creeper'], 4, player),
+            //new Wave(['hydra', 'star', 'fossil', 'rock'], 6, player),
+            //new Wave(['crasher', 'crasher', 'crasher', 'rock', 'rock'], 6, player),
+            //new Wave(['turret', 'turret', 'turret', 'rock', 'rock'], 5, player),
+            new Wave(['rock', 'rock', 'rock', 'rock', 'rock', 'rock'], 4, player),
+            new Wave(['rock', 'rock', 'rock', 'rock', 'rock', 'rock'], 4, player)
         ]);
         // final level
         allWaves.push([
-            new Wave(['fossil', 'fossil', 'crasher', 'hydra'], 3, player),
-            new Wave(['crasher', 'crasher', 'turret', 'eye'], 5, player),
-            new Wave(['fighter', 'fighter'], 4, player),
-            new Wave(['demon', 'demon'], 2, player),
-            new Wave(['demon', 'hydra', 'creeper'], 4, player),
-            new Wave(['eye', 'slither', 'turret'], 4, player),
-            new Wave(['archer', 'archer', 'archer'], 4, player),
-            new Wave(['hydra', 'star', 'crasher'], 3, player),
+            //new Wave(['fossil', 'fossil', 'crasher', 'hydra'], 3, player),
+            //new Wave(['crasher', 'crasher', 'turret', 'eye'], 5, player),
+            //new Wave(['fighter', 'fighter'], 4, player),
+            //new Wave(['demon', 'demon'], 2, player),
+            //new Wave(['demon', 'hydra', 'creeper'], 4, player),
+            //new Wave(['eye', 'slither', 'turret'], 4, player),
+            //new Wave(['archer', 'archer', 'archer'], 4, player),
+            //new Wave(['hydra', 'star', 'crasher'], 3, player),
             new Wave(['slither', 'slither', 'slither'], 4, player),
             new Wave(['turret', 'turret', 'turret', 'turret'], 4, player)
         ]);
@@ -156,6 +226,10 @@ class PlayState extends FlxState
     }
 
     private function nextLevel() {
+        spawnBoss = false;
+        new FlxTimer().start(3, function(_:FlxTimer) {
+            spawnBoss = true;
+        });
         new FlxTimer().start(0.5, function(_:FlxTimer) {
             FlxG.sound.load(
                 'assets/sounds/' + currentLevel + 'complete.wav'
@@ -186,20 +260,22 @@ class PlayState extends FlxState
                 difficulty = 0.7;
             }
             else if(currentLevel == 4) {
-                difficulty = 0.75;
+                difficulty = 0.7;
             }
             else if(currentLevel == 5) {
-                difficulty = 0.8;
+                difficulty = 0.75;
             }
             else if(currentLevel == 6) {
-                difficulty = 0.9;
+                difficulty = 0.8;
             }
             else if(currentLevel == 7) {
                 difficulty = 1;
             }
-            var boss = new Boss(0, 0, player, difficulty);
-            boss.setStartPosition();
-            add(boss);
+            if(spawnBoss) {
+                var boss = new Boss(0, 0, player, difficulty);
+                boss.setStartPosition();
+                add(boss);
+            }
             // dont forget boss difficulty,.. and rocks..
             return;
         }

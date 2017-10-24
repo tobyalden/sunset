@@ -17,6 +17,7 @@ class Boss extends Enemy
     public static inline var SPIN_SPEED = 15;
 
     private var shootTimer:FlxTimer;
+    private var phaseTimer:FlxTimer;
     private var numberOfPhases:Int;
     private var phase:Int;
     private var spinOffset:Float;
@@ -33,19 +34,18 @@ class Boss extends Enemy
         animation.add('idle2', [4]);
         animation.add('freak2', [5, 6, 7], 10);
         animation.play('idle');
-        //health = 50 * difficulty;
-        health = 2;
+        health = 50 * difficulty;
         spinOffset = 1;
         shootTimer = new FlxTimer();
         var shotCooldown:Float = SHOT_COOLDOWN;
-        if(difficulty == 1) {
+        if(difficulty >= 0.8) {
             numberOfPhases = MAX_NUMBER_OF_PHASES;
         }
-        else if(difficulty <= 0.75) {
+        else if(difficulty >= 0.75) {
             numberOfPhases = MAX_NUMBER_OF_PHASES - 1;
             shotCooldown = SHOT_COOLDOWN * (1/difficulty * 2);
         }
-        else if(difficulty <= 0.5) {
+        else {
             numberOfPhases = MAX_NUMBER_OF_PHASES - 2;
             shotCooldown = SHOT_COOLDOWN * (1/difficulty * 2);
         }
@@ -54,7 +54,7 @@ class Boss extends Enemy
         velocity.set(rand.sign() * SPEED * difficulty, SPEED * difficulty);
         phase = new FlxRandom().int(1, numberOfPhases);
         //phase = 1;
-        new FlxTimer().start(TIME_BETWEEN_PHASES * difficulty, function(_:FlxTimer) {
+        phaseTimer = new FlxTimer().start(TIME_BETWEEN_PHASES * difficulty, function(_:FlxTimer) {
             phase += 1;
             if(phase > numberOfPhases) {
                 phase = 1;
@@ -209,25 +209,25 @@ class Boss extends Enemy
                 animation.play('idle2');
             }
         }
-        if(phase == 1 || phase == 3) {
-            if(x < 0) {
-                x = 0;
-                velocity.x = SPEED * difficulty;
-            }
-            else if(x > FlxG.width - width) {
-                x = FlxG.width - width;
-                velocity.x = -SPEED * difficulty;
-            }
-            if(y < 0 && velocity.y < 0) {
-                y = 0;
-                velocity.y = SPEED * difficulty;
-            }
-            else if(y > FlxG.height - height) {
-                y = FlxG.height - height;
-                velocity.y = -SPEED * difficulty;
-            }
+
+        if(x < 0) {
+            x = 0;
+            velocity.x = SPEED * difficulty;
         }
-        else if(phase == 2) {
+        else if(x > FlxG.width - width) {
+            x = FlxG.width - width;
+            velocity.x = -SPEED * difficulty;
+        }
+        if(y < 0 && velocity.y < 0) {
+            y = 0;
+            velocity.y = SPEED * difficulty;
+        }
+        else if(y > FlxG.height - height) {
+            y = FlxG.height - height;
+            velocity.y = -SPEED * difficulty;
+        }
+
+        if(phase == 2) {
             FlxVelocity.moveTowardsPoint(
                 this, new FlxPoint(FlxG.width/2, FlxG.height/2)
             );
@@ -240,6 +240,7 @@ class Boss extends Enemy
             bullet.destroy();
         }
         shootTimer.cancel();
+        phaseTimer.cancel();
         super.kill();
         cast(FlxG.state, PlayState).beatLevel();
     }
