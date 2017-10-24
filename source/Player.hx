@@ -15,6 +15,7 @@ class Player extends FlxSprite
 
     private var shootTimer:FlxTimer;
     private var invincible:FlxTimer;
+    private var lives:Int;
 
     public function new(x:Int, y:Int)
     {
@@ -26,6 +27,7 @@ class Player extends FlxSprite
         height = 8;
         offset.x = 8;
         offset.y = 8;
+        lives = 3;
     }
 
     override public function update(elapsed:Float)

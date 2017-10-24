@@ -1,21 +1,12 @@
-WED
-+ add 6 more basic enemies
-THURS
-+ add 6 more basic enemies
-+ add procedurally generated bosses
-FRI
-+ add procedurally generated bosses
-SAT
-+ add procedurally generated bosses
-+ add levels (i.e., figure out how to structure appearance of enemies)
-SUN
-- add bombs
-- add scoring / extra lives
+NEED:
+- add levels
 - add lives / game over
 - add different, more complicated backgrounds
-MON
 - add title screen
-- add 2 player
 - add music
 - add sfx
+WANT:
+- add bombs
+- add scoring / extra lives
+- add 2 player
 - make html5 version

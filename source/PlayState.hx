@@ -17,7 +17,7 @@ class PlayState extends FlxState
 
     override public function create():Void
     {
-        player = new Player(20, 20);
+        player = new Player(Std.int(FlxG.width/2), FlxG.height - 30);
         backdrop = new FlxBackdrop('assets/images/backdrop.png');
         backdrop.velocity.set(0, BACKDROP_SCROLL_SPEED);
         waveTimer = new FlxTimer();
