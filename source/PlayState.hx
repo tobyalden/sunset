@@ -20,6 +20,7 @@ class PlayState extends FlxState
     private var allWaves:Array<Array<Wave>>;
     private var gameOver:FlxSprite;
     private var levelComplete:FlxSprite;
+    private var youWin:FlxSprite;
     private var currentLevel:Int;
 
     override public function create():Void
@@ -34,6 +35,11 @@ class PlayState extends FlxState
         // fighter, fossil, hydra, slither, star, turret
         allWaves = new Array<Array<Wave>>();
         // level 1
+        allWaves.push([
+            new Wave(['rock', 'rock', 'rock', 'rock'], 5, player),
+            new Wave(['rock', 'rock', 'rock', 'rock'], 5, player),
+            new Wave(['rock', 'rock', 'rock', 'rock'], 5, player)
+        ]);
         allWaves.push([
             new Wave(['fossil'], 7, player)
         ]);
@@ -75,13 +81,17 @@ class PlayState extends FlxState
         gameOver.loadGraphic('assets/images/gameover.png');
         levelComplete = new FlxSprite(0, 0);
         levelComplete.loadGraphic('assets/images/levelcomplete.png');
+        youWin = new FlxSprite(0, 0);
+        youWin.loadGraphic('assets/images/youwin.png');
         add(backdrop);
         add(clouds);
         add(player);
         add(gameOver);
         add(levelComplete);
+        add(youWin);
         gameOver.visible = false;
         levelComplete.visible = false;
+        youWin.visible = false;
         currentLevel = 1;
         waves = allWaves[currentLevel - 1];
         sendNextWave(null);
@@ -129,6 +139,23 @@ class PlayState extends FlxState
     }
 
     public function beatLevel() {
+        if(currentLevel == 7) {
+            FlxG.sound.music.stop();
+            new FlxTimer().start(3, function(_:FlxTimer) {
+                FlxG.sound.load('assets/sounds/flyintothesunset.wav').play();
+                youWin.visible = true;
+                FlxFlicker.flicker(youWin, 0.2);
+                new FlxTimer().start(1, function(_:FlxTimer) {
+                    player.sendOff();
+                });
+            });
+        }
+        else {
+            nextLevel();
+        }
+    }
+
+    private function nextLevel() {
         new FlxTimer().start(0.5, function(_:FlxTimer) {
             FlxG.sound.load(
                 'assets/sounds/' + currentLevel + 'complete.wav'

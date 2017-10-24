@@ -1,9 +1,8 @@
 NEED:
-- add ending
-- boss difficulty
+- add rest of levels
 WANT:
-- add bombs
-- add rocks
-- add scoring / extra lives
 - add 2 player
+- add rocks
+- add bombs
+- add scoring / extra lives
 - make html5 version

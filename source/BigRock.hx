@@ -21,4 +21,9 @@ class BigRock extends Enemy
         FlxG.state.add(new Explosion(this, true));
         super.kill();
     }
+
+    override public function setStartPosition() {
+        x = new FlxRandom().int(0, Std.int(FlxG.width - width));
+        y = -height - new FlxRandom().int(0, Std.int(FlxG.height/2));
+    }
 }

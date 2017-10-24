@@ -1,5 +1,6 @@
 package;
 
+import flixel.*;
 import flixel.math.*;
 
 class Rock extends Enemy
@@ -14,5 +15,10 @@ class Rock extends Enemy
         loadGraphic(path);
         acceleration.y = FALL_ACCELERATION + rand.int(0, FALL_VARIATION);
         health = 2;
+    }
+
+    override public function setStartPosition() {
+        x = new FlxRandom().int(0, Std.int(FlxG.width - width));
+        y = -height - new FlxRandom().int(0, FlxG.height);
     }
 }

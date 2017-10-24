@@ -1,5 +1,7 @@
 package;
 
+import flixel.math.*;
+
 class Wave
 {
     public var enemies:Array<Enemy>;
@@ -46,6 +48,14 @@ class Wave
             }
             else if(enemyName == 'hydra') {
                 enemies.push(new Hydra(0, 0, player));             
+            }
+            if(enemyName == 'rock') {
+                if(new FlxRandom().bool(25)) {
+                    enemies.push(new BigRock(0, 0, player));
+                }
+                else {
+                    enemies.push(new Rock(0, 0, player));
+                }
             }
             else if(enemyName == 'slither') {
                 enemies.push(new Slither(0, 0, player));             

@@ -20,6 +20,7 @@ class Player extends FlxSprite
     private var lives:Int;
     private var shootSfx:FlxSound;
     private var explodeSfx:FlxSound;
+    private var sendingOff:Bool;
 
     public function new(x:Int, y:Int)
     {
@@ -33,15 +34,28 @@ class Player extends FlxSprite
         offset.y = 8;
         lives = 10;
         gameIsOver = false;
+        sendingOff = false;
         shootSfx = FlxG.sound.load('assets/sounds/shoot.wav');
         explodeSfx = FlxG.sound.load('assets/sounds/playerexplode.wav');
     }
 
+    public function sendOff() {
+        velocity.x = 0;
+        velocity.y = 0;
+        sendingOff = true;
+    }
+
     override public function update(elapsed:Float)
     {
-        movement();
-        super.update(elapsed);
-        FlxSpriteUtil.bound(this);
+        if(sendingOff) {
+            acceleration.y = -100;
+            super.update(elapsed);
+        }
+        else {
+            movement();
+            super.update(elapsed);
+            FlxSpriteUtil.bound(this);
+        }
     }
 
     override public function kill() {
