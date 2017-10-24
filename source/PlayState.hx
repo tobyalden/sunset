@@ -1,6 +1,7 @@
 package;
 
 import flixel.*;
+import flixel.system.*;
 import flixel.addons.display.*;
 import flixel.math.*;
 import flixel.util.*;
@@ -51,6 +52,11 @@ class PlayState extends FlxState
         add(backdrop);
         add(player);
         sendNextWave(null);
+        var startSfx = FlxG.sound.load('assets/sounds/start.wav');
+        startSfx.play();
+        FlxG.sound.playMusic(
+            FlxAssets.getSound('assets/music/playloop')
+        );
         super.create();
     }
 
@@ -59,7 +65,7 @@ class PlayState extends FlxState
         if(Enemy.all.countLiving() <= 1 && waveTimer.timeLeft > 0.5) {
             waveTimer.reset(0.5);
         }
-        if(Enemy.all.countLiving() > 6) {
+        if(Enemy.all.countLiving() > 5) {
             waveTimer.reset(1);
         }
         // Damage enemies if they're touching

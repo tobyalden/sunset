@@ -24,6 +24,9 @@ class TitleScreen extends FlxState
         add(title);
         titleSfx = FlxG.sound.load('assets/sounds/sunset.wav');
         titleSfx.play();
+        FlxG.sound.playMusic(
+            FlxAssets.getSound('assets/music/menuscreen')
+        );
         super.create();
     }
 
@@ -31,6 +34,7 @@ class TitleScreen extends FlxState
     {
         if(FlxG.keys.firstJustPressed() != -1) {
             FlxG.switchState(new PlayState());
+            FlxG.sound.music.stop();
         }
         super.update(elapsed);
     }
