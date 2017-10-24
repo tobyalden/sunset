@@ -1,9 +1,10 @@
 NEED:
 - add levels
-- add different, more complicated backgrounds
 - add ending
+- boss difficulty
 WANT:
 - add bombs
+- add rocks
 - add scoring / extra lives
 - add 2 player
 - make html5 version

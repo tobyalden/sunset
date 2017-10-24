@@ -5,6 +5,7 @@ import flixel.system.*;
 import flixel.addons.display.*;
 import flixel.math.*;
 import flixel.util.*;
+import flixel.effects.*;
 
 class PlayState extends FlxState
 {
@@ -16,7 +17,10 @@ class PlayState extends FlxState
     private var clouds:FlxBackdrop;
     private var waveTimer:FlxTimer;
     private var waves:Array<Wave>;
+    private var allWaves:Array<Array<Wave>>;
     private var gameOver:FlxSprite;
+    private var levelComplete:FlxSprite;
+    private var currentLevel:Int;
 
     override public function create():Void
     {
@@ -28,19 +32,31 @@ class PlayState extends FlxState
         waveTimer = new FlxTimer();
         // archer, crasher, creeper, demon, eye
         // fighter, fossil, hydra, slither, star, turret
-        //waves = [
-            //new Wave(['fossil', 'fossil'], 7, player),
-            //new Wave(['crasher', 'crasher'], 5, player),
-            //new Wave(['fighter'], 10, player),
-            //new Wave(['demon'], 10, player),
-            //new Wave(['demon'], 10, player),
-            //new Wave(['eye', 'eye'], 7, player),
-            //new Wave(['archer', 'archer'], 7, player),
-            //new Wave(['hydra'], 5, player),
-            //new Wave(['slither'], 5, player),
-            //new Wave(['turret', 'turret', 'turret'], 5, player)
-        //];
-        waves = [
+        allWaves = new Array<Array<Wave>>();
+        // level 1
+        allWaves.push([
+            new Wave(['fossil'], 7, player)
+        ]);
+        allWaves.push([
+            new Wave(['crasher'], 7, player)
+        ]);
+        allWaves.push([
+            new Wave(['demon'], 7, player)
+        ]);
+        allWaves.push([
+            new Wave(['fossil', 'fossil'], 7, player),
+            new Wave(['crasher', 'crasher'], 5, player),
+            new Wave(['fighter'], 10, player),
+            new Wave(['demon'], 10, player),
+            new Wave(['demon'], 10, player),
+            new Wave(['eye', 'eye'], 7, player),
+            new Wave(['archer', 'archer'], 7, player),
+            new Wave(['hydra'], 5, player),
+            new Wave(['slither'], 5, player),
+            new Wave(['turret', 'turret', 'turret'], 5, player)
+        ]);
+        // final level
+        allWaves.push([
             new Wave(['fossil', 'fossil', 'crasher', 'hydra'], 3, player),
             new Wave(['crasher', 'crasher', 'turret', 'eye'], 5, player),
             new Wave(['fighter', 'fighter'], 4, player),
@@ -51,15 +67,23 @@ class PlayState extends FlxState
             new Wave(['hydra', 'star', 'crasher'], 3, player),
             new Wave(['slither', 'slither', 'slither'], 4, player),
             new Wave(['turret', 'turret', 'turret', 'turret'], 4, player)
-        ];
-        new FlxRandom().shuffle(waves);
+        ]);
+        for(waves in allWaves) {
+            new FlxRandom().shuffle(waves);
+        }
         gameOver = new FlxSprite(0, 0);
         gameOver.loadGraphic('assets/images/gameover.png');
+        levelComplete = new FlxSprite(0, 0);
+        levelComplete.loadGraphic('assets/images/levelcomplete.png');
         add(backdrop);
         add(clouds);
         add(player);
         add(gameOver);
+        add(levelComplete);
         gameOver.visible = false;
+        levelComplete.visible = false;
+        currentLevel = 1;
+        waves = allWaves[currentLevel - 1];
         sendNextWave(null);
         var startSfx = FlxG.sound.load('assets/sounds/start.wav');
         startSfx.play();
@@ -104,6 +128,22 @@ class PlayState extends FlxState
         super.update(elapsed);
     }
 
+    public function beatLevel() {
+        new FlxTimer().start(0.5, function(_:FlxTimer) {
+            FlxG.sound.load(
+                'assets/sounds/' + currentLevel + 'complete.wav'
+            ).play();
+            currentLevel += 1;
+            levelComplete.visible = true;
+            FlxFlicker.flicker(levelComplete, 0.2);
+            new FlxTimer().start(2, function(_:FlxTimer) {
+                waves = allWaves[currentLevel - 1];
+                sendNextWave(null);
+                levelComplete.visible = false;
+            });
+        });
+    }
+
     private function sendNextWave(_:FlxTimer) {
         var wave = waves.pop();
         if (wave == null) {
@@ -111,7 +151,7 @@ class PlayState extends FlxState
                 waveTimer.reset();
                 return;
             }
-            var boss:Enemy = new Boss(0, 0, player);
+            var boss = new Boss(0, 0, player);
             boss.setStartPosition();
             add(boss);
             // dont forget boss difficulty,.. and rocks..

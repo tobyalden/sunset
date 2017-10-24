@@ -31,8 +31,7 @@ class Player extends FlxSprite
         height = 8;
         offset.x = 8;
         offset.y = 8;
-        //lives = 10;
-        lives = 2;
+        lives = 10;
         gameIsOver = false;
         shootSfx = FlxG.sound.load('assets/sounds/shoot.wav');
         explodeSfx = FlxG.sound.load('assets/sounds/playerexplode.wav');

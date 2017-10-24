@@ -33,7 +33,8 @@ class Boss extends Enemy
         animation.add('idle2', [4]);
         animation.add('freak2', [5, 6, 7], 10);
         animation.play('idle');
-        health = 50 * difficulty;
+        //health = 50 * difficulty;
+        health = 2;
         spinOffset = 1;
         shootTimer = new FlxTimer();
         var shotCooldown:Float = SHOT_COOLDOWN;
@@ -240,6 +241,7 @@ class Boss extends Enemy
         }
         shootTimer.cancel();
         super.kill();
+        cast(FlxG.state, PlayState).beatLevel();
     }
 }
 
