@@ -23,6 +23,8 @@ class PlayState extends FlxState
     private var youWin:FlxSprite;
     private var currentLevel:Int;
     private var spawnBoss:Bool;
+    private var flyIntoTheSunsetSfx:FlxSound;
+    private var levelCompleteSfx:Map<Int, FlxSound>;
 
     override public function create():Void
     {
@@ -37,6 +39,14 @@ class PlayState extends FlxState
         // fighter, fossil, hydra, slither, star, turret
         allWaves = new Array<Array<Wave>>();
         // level 1
+        flyIntoTheSunsetSfx = FlxG.sound.load(
+            'assets/sounds/flyintothesunset.wav'
+        );
+        levelCompleteSfx = new Map<Int, FlxSound>();
+        for(i in 1...8) {
+            var sfx = FlxG.sound.load('assets/sounds/' + i + 'complete.wav');
+            levelCompleteSfx.set(i, sfx);
+        }
         allWaves.push([
             new Wave(['fossil', 'fossil'], 7, player),
             new Wave(['crasher', 'crasher'], 6, player),
@@ -213,7 +223,7 @@ class PlayState extends FlxState
         if(currentLevel == 7) {
             FlxG.sound.music.stop();
             new FlxTimer().start(3, function(_:FlxTimer) {
-                FlxG.sound.load('assets/sounds/flyintothesunset.wav').play();
+                flyIntoTheSunsetSfx.play();
                 youWin.visible = true;
                 FlxFlicker.flicker(youWin, 0.2);
                 new FlxTimer().start(1, function(_:FlxTimer) {
@@ -232,9 +242,7 @@ class PlayState extends FlxState
             spawnBoss = true;
         });
         new FlxTimer().start(0.5, function(_:FlxTimer) {
-            FlxG.sound.load(
-                'assets/sounds/' + currentLevel + 'complete.wav'
-            ).play();
+            levelCompleteSfx.get(currentLevel).play();
             currentLevel += 1;
             levelComplete.visible = true;
             FlxFlicker.flicker(levelComplete, 0.2);

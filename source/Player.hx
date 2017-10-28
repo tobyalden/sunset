@@ -21,6 +21,8 @@ class Player extends FlxSprite
     private var shootSfx:FlxSound;
     private var explodeSfx:FlxSound;
     private var sendingOff:Bool;
+    private var livesLeftSfx:Map<Int, FlxSound>;
+    private var gameOverSfx:FlxSound;
 
     public function new(x:Int, y:Int)
     {
@@ -37,6 +39,12 @@ class Player extends FlxSprite
         sendingOff = false;
         shootSfx = FlxG.sound.load('assets/sounds/shoot.wav');
         explodeSfx = FlxG.sound.load('assets/sounds/playerexplode.wav');
+        livesLeftSfx = new Map<Int, FlxSound>();
+        for(i in 1...10) {
+            var sfx = FlxG.sound.load('assets/sounds/' + i + 'left.wav');
+            livesLeftSfx.set(i, sfx);
+        }
+        gameOverSfx = FlxG.sound.load('assets/sounds/gameover.wav');
     }
 
     public function sendOff() {
@@ -59,11 +67,11 @@ class Player extends FlxSprite
     }
 
     override public function kill() {
-        velocity.set(0, 0);
-        explodeSfx.play();
         if(invincible.active) {
             return;
         }
+        velocity.set(0, 0);
+        explodeSfx.play();
         FlxG.state.add(new Explosion(this));
         new FlxTimer().start(RESPAWN_TIME, function(_:FlxTimer) {
             if(lives > 0) {
@@ -78,7 +86,7 @@ class Player extends FlxSprite
     }
 
     private function respawn() {
-        FlxG.sound.load('assets/sounds/' + lives + 'left.wav').play();
+        livesLeftSfx[lives].play();
         revive();
         invincible.start(INVINCIBLE_TIME);
         FlxFlicker.flicker(this, INVINCIBLE_TIME);
@@ -87,7 +95,7 @@ class Player extends FlxSprite
     private function gameOver() {
         gameIsOver = true;
         FlxG.sound.music.stop();
-        FlxG.sound.load('assets/sounds/gameover.wav').play();
+        gameOverSfx.play();
         new FlxTimer().start(7, function(_:FlxTimer) {
             FlxG.switchState(new TitleScreen());
         });
