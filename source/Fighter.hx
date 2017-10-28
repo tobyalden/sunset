@@ -72,7 +72,7 @@ class Fighter extends Enemy
     override public function kill()
     {
         shootTimer.cancel();
-        super.destroy();
+        super.kill();
     }
 }
 
