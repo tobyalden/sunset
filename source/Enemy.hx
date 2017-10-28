@@ -19,8 +19,8 @@ class Enemy extends FlxSprite
         super(x, y);
         this.player = player;
         all.add(this);
-        hitSfx = FlxG.sound.load('assets/sounds/hit.wav');
-        explodeSfx = FlxG.sound.load('assets/sounds/explode.wav');
+        hitSfx = FlxG.sound.load('assets/sounds/hit.ogg');
+        explodeSfx = FlxG.sound.load('assets/sounds/explode.ogg');
     }
 
     public function movement() {

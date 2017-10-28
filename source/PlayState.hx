@@ -40,11 +40,11 @@ class PlayState extends FlxState
         allWaves = new Array<Array<Wave>>();
         // level 1
         flyIntoTheSunsetSfx = FlxG.sound.load(
-            'assets/sounds/flyintothesunset.wav'
+            'assets/sounds/flyintothesunset.ogg'
         );
         levelCompleteSfx = new Map<Int, FlxSound>();
         for(i in 1...8) {
-            var sfx = FlxG.sound.load('assets/sounds/' + i + 'complete.wav');
+            var sfx = FlxG.sound.load('assets/sounds/' + i + 'complete.ogg');
             levelCompleteSfx.set(i, sfx);
         }
         allWaves.push([
@@ -175,7 +175,7 @@ class PlayState extends FlxState
         currentLevel = 1;
         waves = allWaves[currentLevel - 1];
         sendNextWave(null);
-        var startSfx = FlxG.sound.load('assets/sounds/start.wav');
+        var startSfx = FlxG.sound.load('assets/sounds/start.ogg');
         startSfx.play();
         FlxG.sound.playMusic(
             FlxAssets.getSound('assets/music/playloop')

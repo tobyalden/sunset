@@ -27,8 +27,6 @@ class Bullet extends FlxSprite
         else {
             enemyAll.add(this);
         }
-        //hitSfx = FlxG.sound.load('assets/sounds/hit.wav');
-        //hitSfx.volume = 0.33;
     }
 
     override public function update(elapsed:Float)

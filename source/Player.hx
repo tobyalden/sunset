@@ -37,14 +37,14 @@ class Player extends FlxSprite
         lives = 10;
         gameIsOver = false;
         sendingOff = false;
-        shootSfx = FlxG.sound.load('assets/sounds/shoot.wav');
-        explodeSfx = FlxG.sound.load('assets/sounds/playerexplode.wav');
+        shootSfx = FlxG.sound.load('assets/sounds/shoot.ogg');
+        explodeSfx = FlxG.sound.load('assets/sounds/playerexplode.ogg');
         livesLeftSfx = new Map<Int, FlxSound>();
         for(i in 1...10) {
-            var sfx = FlxG.sound.load('assets/sounds/' + i + 'left.wav');
+            var sfx = FlxG.sound.load('assets/sounds/' + i + 'left.ogg');
             livesLeftSfx.set(i, sfx);
         }
-        gameOverSfx = FlxG.sound.load('assets/sounds/gameover.wav');
+        gameOverSfx = FlxG.sound.load('assets/sounds/gameover.ogg');
     }
 
     public function sendOff() {

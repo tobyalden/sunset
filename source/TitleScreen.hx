@@ -22,7 +22,7 @@ class TitleScreen extends FlxState
         backdrop.velocity.set(0, BACKDROP_SCROLL_SPEED);
         add(backdrop);
         add(title);
-        titleSfx = FlxG.sound.load('assets/sounds/sunset.wav');
+        titleSfx = FlxG.sound.load('assets/sounds/sunset.ogg');
         titleSfx.play();
         FlxG.sound.playMusic(
             FlxAssets.getSound('assets/music/menuscreen')
