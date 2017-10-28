@@ -90,6 +90,13 @@ class Player extends FlxSprite
         revive();
         invincible.start(INVINCIBLE_TIME);
         FlxFlicker.flicker(this, INVINCIBLE_TIME);
+        var playState = cast(FlxG.state, PlayState);
+        playState.livesLeft.animation.play(Std.string(lives));
+        playState.livesLeft.visible = true;
+        FlxFlicker.flicker(playState.livesLeft, 0.2);
+        new FlxTimer().start(2, function(_:FlxTimer) {
+            playState.livesLeft.visible = false;
+        });
     }
 
     private function gameOver() {

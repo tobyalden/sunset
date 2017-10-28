@@ -21,6 +21,7 @@ class PlayState extends FlxState
     private var gameOver:FlxSprite;
     private var levelComplete:FlxSprite;
     private var youWin:FlxSprite;
+    public var livesLeft:FlxSprite;
     private var currentLevel:Int;
     private var spawnBoss:Bool;
     private var flyIntoTheSunsetSfx:FlxSound;
@@ -163,15 +164,22 @@ class PlayState extends FlxState
         levelComplete.loadGraphic('assets/images/levelcomplete.png');
         youWin = new FlxSprite(0, 0);
         youWin.loadGraphic('assets/images/youwin.png');
+        livesLeft = new FlxSprite(0, 0);
+        livesLeft.loadGraphic('assets/images/lives.png', true, 256, 240);
+        for (i in 0...9) {
+            livesLeft.animation.add(Std.string(i + 1), [i]);
+        }
         add(backdrop);
         add(clouds);
         add(player);
         add(gameOver);
         add(levelComplete);
         add(youWin);
+        add(livesLeft);
         gameOver.visible = false;
         levelComplete.visible = false;
         youWin.visible = false;
+        livesLeft.visible = false;
         currentLevel = 1;
         waves = allWaves[currentLevel - 1];
         sendNextWave(null);
@@ -284,6 +292,7 @@ class PlayState extends FlxState
                 var boss = new Boss(0, 0, player, difficulty);
                 boss.setStartPosition();
                 add(boss);
+                members.insert(2, members.pop()); // so they're drawn under the HUD
             }
             return;
         }
@@ -291,6 +300,7 @@ class PlayState extends FlxState
         for (enemy in wave.enemies) {
             enemy.setStartPosition();
             add(enemy);
+            members.insert(2, members.pop()); // so they're drawn under the HUD
         }
         waveTimer.start(wave.timeTillNext, sendNextWave, 1);
     }
