@@ -94,7 +94,7 @@ class Player extends FlxSprite
         playState.livesLeft.animation.play(Std.string(lives));
         playState.livesLeft.visible = true;
         FlxFlicker.flicker(playState.livesLeft, 0.2);
-        new FlxTimer().start(2, function(_:FlxTimer) {
+        new FlxTimer().start(1.2, function(_:FlxTimer) {
             playState.livesLeft.visible = false;
         });
     }
